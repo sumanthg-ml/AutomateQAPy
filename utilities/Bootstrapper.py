@@ -1,11 +1,13 @@
+from re import S
 import sys,os 
 import pytest               
 import importlib
+import driverhandles
 from .testCache import TestCache
 from .loggerService import LoggerService
 from .configService import ConfigService
 from .dataService import DataService
-from .driverService import DriverService
+from driverhandles.driverService import DriverService
 from .testCaseService import TestCaseService
 from .emailService import EmailService
 
@@ -68,53 +70,7 @@ class Bootstrapper():
         self.testCache.logger_service.logger.info("Bootstrap Master Cleanup...")
         self.testCache = None
 
-    def RunNunitTest(self,nunitmodel:str):
-        assemblyName =  self.testCache.config_service.getCustomSettings('nunitsettings').get('assemblyname')
-        outputPath = os.path.join(os.path.curdir,"Output")
-
-        import subprocess
-        from subprocess import Popen,PIPE
-
-        if("unicorn" in nunitmodel.lower()):
-            tmp = nunitmodel.split(sep='=',maxsplit=1)
-            testcaseid = tmp[1]
-            testfilter = "\"test=~\'"+testcaseid+"\'\""
-        elif("specflow" in nunitmodel.lower()):
-            tmp = nunitmodel.split(sep='=',maxsplit=1)
-            testcaseid = tmp[1]
-            testfilter = "\"cat=~\'"+testcaseid+"\'\""
-        elif(nunitmodel.strip().isnumeric()): 
-            testcaseid = nunitmodel.strip()
-            testfilter = "\"test=~\'"+testcaseid+"\'\""
-        else:
-            raise NotImplementedError("Option not available in RunNunitTest")        
-
-        arg = "C:\\Temp\\sg_mutate\\NUnit.Console\\bin\\net35\\nunit3-console.exe "+assemblyName+" --work="+outputPath+" --where "+testfilter
-      
-        self.testCache.logger_service.logger.debug("Triggering Nunit Test from Console")
-        self.testCache.logger_service.logger.debug("Cmd: "+arg)
-        process = Popen(args=arg,stdout=PIPE,stderr=PIPE)
-        stdout, stderr = process.communicate() 
-
-        stdstr = stdout.decode('utf8')
-        print(stdstr)
-        if(str.__contains__(stdstr,"Passed: 1")):
-            self.testCache.logger_service.logger.debug("Nunit Test Passed")
-        else:
-            self.testCache.logger_service.logger.debug("Nunit Test Failed")
-            pytest.fail(msg="",pytrace=False)
-       
-
-       
-
-        
-        # pytest.fail(msg="failure message")
-        
-        
-
-
-     
-
+   
            
 
         

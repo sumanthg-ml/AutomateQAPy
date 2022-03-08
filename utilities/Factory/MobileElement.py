@@ -5,6 +5,7 @@ from appium.webdriver.common.mobileby import By
 from appium.webdriver.webelement import WebElement
 from selenium.webdriver.support.select import Select
 import time
+from utilities.testCache import TestCache
 
 
 def _locatorSwitcher(searchBy):
@@ -46,11 +47,6 @@ class BaseElement(object):
                     __webdriver.execute_script("arguments[0].scrollIntoView(true);",self._currentElement)            
         except:
             self.testCache.logger_service.logger.exception("SearchFailure:")
-
-    # def FindElement(self,**searchCriteria):  
-    #     self._searchElement()   
-    #     el = self._currentElement.find_element()
-    #     return el
     
     def Click(self):
         self._searchElement()

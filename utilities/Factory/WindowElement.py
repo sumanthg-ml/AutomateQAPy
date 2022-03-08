@@ -3,6 +3,7 @@ import pywinauto
 from pywinauto import application
 from pywinauto.application import WindowSpecification
 import time
+from utilities.testCache import TestCache
         
 
 class BaseElement(object):    
