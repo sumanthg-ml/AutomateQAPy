@@ -23,16 +23,11 @@ class BaseElement(object):
     def __get__(self, obj, owner):
         self.testCache:TestCache = obj.testCache
         return self
-   
-    # def __set__(self, obj, value): 
-    #     raise Exception('Cannot set value')    
 
     def _searchElement(self):
         try:
             __app:application.Application = self.testCache.driver_service.driver
             self._currentElement = __app.top_window().child_window(**self.criteria)
-            #if self._currentElement is None:
-                #self._currentElement = __app.top_window().child_window(**self.criteria)
             
         except:
             self.testCache.logger_service.logger.exception("SearchFailure:")
@@ -89,16 +84,6 @@ class BaseElement(object):
                 self._currentElement.double_click_input()
         except:
             self.testCache.logger_service.logger.exception("ActionFailure-DoubleClick:")
-
-    # def Click_Input(self):
-    #     """Click on the specified element.   
-
-    #     """
-    #     self._searchElement()
-    #     try:
-    #         self._currentElement.click_input()
-    #     except:
-    #         self.testCache.logger_service.logger.exception("ActionFailure-Click:")
 
     def IsEnabled(self):
         """Check if the specified element is enabled.   
