@@ -11,12 +11,6 @@ from utilities.testCache import TestCache
 
 import time
         
-# def _locatorSwitcher(searchBy):
-#     switcher ={
-#         "id":lambda:webdriver.Remote.find_element_by_id,
-#         "class_name":lambda:webdriver.Remote.find_elements_by_class_name,
-#     }
-#     return switcher.get(searchBy,lambda: "expression")()
 
 def _locatorSwitcher(searchBy):
     switcher ={
@@ -47,10 +41,7 @@ class BaseElement(object):
    
     def __get__(self, obj, owner):
         self.testCache:TestCache = obj.testCache
-        return self
-   
-    # def __set__(self, obj, value): 
-    #     raise Exception('Cannot set value')    
+        return self    
     
     def _searchElement(self,parentElement=None,timeoutInSeconds=5):
         try:
@@ -69,12 +60,7 @@ class BaseElement(object):
                   
         except:
             self.testCache.logger_service.logger.exception("SearchFailure:")
-            
-    # def FindElement(self,**searchCriteria):  
-    #     self._searchElement()   
-    #     el = self._currentElement.find_element()
-    #     return el
-    
+                
     def FindElement(self,elementType,**searchCriteria):
         """Returns a child element as a Wrapped element based on Element type.
 
@@ -151,8 +137,6 @@ class BaseElement(object):
         :type yoffset: int
 
         """
-        # self.info("Clicking element '%s' at coordinates x=%s, y=%s."
-        #           % (locator, xoffset, yoffset))
         self._searchElement()        
         try:
             action = ActionChains(self._webdriver)        
@@ -625,20 +609,6 @@ class Table(BaseElement):
             self.testCache.logger_service.logger.exception("ActionFailure-GetTableCellText:")   
         
         return text
-
-    # def GetTableCellIndex(self,cellValue):
-    #     """Returns row and column index for the corresponding cell value in the table.
-    #     Used for searching a value in the table        
-    #     """
-    #     text:int = None              
-    #     rows = self._get_rows()
-    #     for row in rows:
-    #         pass
-    #     cells = rows[0].find_elements_by_xpath('./th|./td')
-    #     headers = [cell.text for cell in cells]
-    #     index = headers.index(columnHeader) #raised error
-    #     text = len(cells)
-    #     return text
 
     def GetRowCount(self):
         """Returns number of a rows in the table. 
