@@ -29,17 +29,13 @@ class BaseElement(object):
    
     def __get__(self, obj, owner):
         self.testCache:TestCache = obj.testCache
-        return self
-   
-    # def __set__(self, obj, value): 
-    #     raise Exception('Cannot set value')    
+        return self    
     
     def _searchElement(self,parentElement=None):
         try:
             __webdriver:webdriver.Remote = self.testCache.driver_service.driver
             if not parentElement:
                 parentElement = __webdriver
-            # object._currentElement = __app.top_window().child_window(**object.criteria)
             if self._currentElement is None:
                 if self.criteria.__len__() == 1:
                     locator,val = (self.criteria.items())[0]
